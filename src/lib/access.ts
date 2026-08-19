@@ -19,7 +19,8 @@ export async function checkAccess(sessionId: string | null | undefined): Promise
   try {
     const session = await getStripe().checkout.sessions.retrieve(sessionId);
     paid = session.payment_status === "paid";
-  } catch {
+  } catch (error) {
+    console.error("[checkAccess] Fehler beim Verifizieren der Stripe-Session:", error);
     return { ok: false, remaining: 0, error: "Die Session konnte nicht verifiziert werden." };
   }
 

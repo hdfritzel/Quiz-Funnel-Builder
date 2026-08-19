@@ -42,7 +42,8 @@ export async function POST(request: Request) {
   let result;
   try {
     result = await generateQuiz(input);
-  } catch {
+  } catch (error) {
+    console.error("[generate] Fehler beim Claude-API-Call:", error);
     // Zähler wird bei Fehler NICHT reduziert.
     return NextResponse.json(
       { error: "Generierung fehlgeschlagen, bitte erneut versuchen." },

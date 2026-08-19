@@ -32,18 +32,25 @@ async function callClaude(input: QuizFormInput): Promise<QuizResult | null> {
   });
 
   const textBlock = message.content.find((block) => block.type === "text");
-  if (!textBlock || textBlock.type !== "text") return null;
+  if (!textBlock || textBlock.type !== "text") {
+    console.warn("[generateQuiz] Claude-Antwort enthält keinen Text-Block.");
+    return null;
+  }
 
   const cleaned = stripCodeBlockFences(textBlock.text);
 
   let parsed: unknown;
   try {
     parsed = JSON.parse(cleaned);
-  } catch {
+  } catch (error) {
+    console.warn("[generateQuiz] JSON.parse fehlgeschlagen:", error, "Roh-Text:", cleaned.slice(0, 500));
     return null;
   }
 
-  if (!isValidQuizResult(parsed)) return null;
+  if (!isValidQuizResult(parsed)) {
+    console.warn("[generateQuiz] Antwort entspricht nicht dem Output-Schema:", cleaned.slice(0, 500));
+    return null;
+  }
   return parsed;
 }
 

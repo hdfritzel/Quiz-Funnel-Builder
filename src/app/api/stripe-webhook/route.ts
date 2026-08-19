@@ -10,6 +10,7 @@ import { initOrGetCredits } from "@/lib/kv";
 export async function POST(request: Request) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) {
+    console.error("[stripe-webhook] STRIPE_WEBHOOK_SECRET ist nicht gesetzt.");
     return NextResponse.json({ error: "STRIPE_WEBHOOK_SECRET ist nicht gesetzt." }, { status: 500 });
   }
 
@@ -24,7 +25,8 @@ export async function POST(request: Request) {
   let event: Stripe.Event;
   try {
     event = getStripe().webhooks.constructEvent(rawBody, signature, webhookSecret);
-  } catch {
+  } catch (error) {
+    console.error("[stripe-webhook] Signaturprüfung fehlgeschlagen:", error);
     return NextResponse.json({ error: "Ungültige Webhook-Signatur." }, { status: 400 });
   }
 

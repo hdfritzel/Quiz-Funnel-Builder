@@ -8,10 +8,22 @@ import { getStripe } from "@/lib/stripe";
 export async function POST() {
   const priceId = process.env.STRIPE_PRICE_ID;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const hasSecretKey = Boolean(process.env.STRIPE_SECRET_KEY);
 
-  if (!priceId || !siteUrl) {
+  if (!priceId || !siteUrl || !hasSecretKey) {
+    // Explizit prüfen und loggen statt getStripe() intern werfen zu lassen —
+    // sonst landet der Fehler unsichtbar im catch-Block unten (kein Log,
+    // kein ausgehender Request, siehe Postmortem).
+    const missing = [
+      !hasSecretKey && "STRIPE_SECRET_KEY",
+      !priceId && "STRIPE_PRICE_ID",
+      !siteUrl && "NEXT_PUBLIC_SITE_URL",
+    ]
+      .filter(Boolean)
+      .join(", ");
+    console.error(`[create-checkout-session] Fehlende Umgebungsvariable(n): ${missing}`);
     return NextResponse.json(
-      { error: "STRIPE_PRICE_ID oder NEXT_PUBLIC_SITE_URL ist nicht konfiguriert." },
+      { error: "Server ist nicht vollständig konfiguriert. Bitte Betreiber kontaktieren." },
       { status: 500 }
     );
   }
@@ -25,11 +37,13 @@ export async function POST() {
     });
 
     if (!session.url) {
+      console.error(`[create-checkout-session] Stripe-Session ohne url zurückgegeben (id: ${session.id}).`);
       return NextResponse.json({ error: "Checkout-Session konnte nicht erstellt werden." }, { status: 502 });
     }
 
     return NextResponse.json({ url: session.url });
-  } catch {
+  } catch (error) {
+    console.error("[create-checkout-session] Fehler beim Stripe-API-Call:", error);
     return NextResponse.json({ error: "Checkout-Session konnte nicht erstellt werden." }, { status: 502 });
   }
 }

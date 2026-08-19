@@ -23,7 +23,8 @@ export async function POST(request: Request) {
 
     const remaining = await initOrGetCredits(sessionId);
     return NextResponse.json({ valid: true, remaining });
-  } catch {
+  } catch (error) {
+    console.error("[verify-session] Fehler beim Verifizieren:", error);
     return NextResponse.json({ valid: false, remaining: 0 }, { status: 400 });
   }
 }
