@@ -18,7 +18,7 @@ function getClient(): Anthropic {
 
 // Model + temperature gemäß quiz-generation-prompt.md ("API-Call-Konfiguration").
 // Über ANTHROPIC_MODEL überschreibbar, falls sich die Modell-ID ändert.
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-6";
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5";
 const TEMPERATURE = 0.7;
 const MAX_TOKENS = 4096;
 

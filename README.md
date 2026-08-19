@@ -81,7 +81,6 @@ src/
 
 ## Hinweis zur Modell-ID
 
-`quiz-generation-prompt.md` gibt `claude-sonnet-4-6` als Modell vor; das steht so
-in `src/lib/anthropic.ts` (per `ANTHROPIC_MODEL`-ENV überschreibbar). Bitte vor dem
-ersten echten API-Call in der Anthropic-Konsole verifizieren, dass diese Modell-ID
-für deinen Account gültig ist — falls nicht, `ANTHROPIC_MODEL` auf die korrekte ID setzen.
+Verwendet wird `claude-sonnet-5` (in `src/lib/anthropic.ts`, per `ANTHROPIC_MODEL`-ENV
+überschreibbar) — abweichend von der in `quiz-generation-prompt.md` genannten
+Modell-ID `claude-sonnet-4-6`, die zum Zeitpunkt des Builds ungültig war.
