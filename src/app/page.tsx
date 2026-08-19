@@ -9,6 +9,15 @@ import {
 const CTA_CLASSES =
   "inline-flex items-center justify-center rounded-md bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-70";
 
+const NISCHEN = [
+  "Coaching",
+  "Network-Marketing",
+  "Krypto",
+  "Gewichtsreduktion",
+  "Nahrungsergänzung",
+  "Kosmetik-/Pflegeprodukte",
+];
+
 export default function LandingPage() {
   return (
     <main className="flex-1">
@@ -28,6 +37,20 @@ export default function LandingPage() {
         <div className="mt-8">
           <BuyButton className={CTA_CLASSES}>Jetzt kaufen — 47&nbsp;€</BuyButton>
           <p className="mt-3 text-sm text-slate-500">Einmalig · 10 Generierungen · sofortiger Zugriff</p>
+        </div>
+
+        <div className="mt-10">
+          <p className="text-sm font-medium text-slate-500">Funktioniert für jede Nische</p>
+          <ul className="mt-3 flex flex-wrap items-center justify-center gap-2">
+            {NISCHEN.map((nische) => (
+              <li
+                key={nische}
+                className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-slate-700"
+              >
+                {nische}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
