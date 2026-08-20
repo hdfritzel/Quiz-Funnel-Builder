@@ -54,6 +54,30 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Nutzen-Absatz */}
+      <section className="mx-auto max-w-2xl px-4 pb-16 text-center">
+        <p className="text-lg font-medium text-slate-900">
+          Ein Quiz macht aus kaltem Traffic warme Anfragen — bevor du auch nur eine Nachricht
+          geschrieben hast.
+        </p>
+        <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-slate-400">So läuft&apos;s</p>
+        <ol className="mx-auto mt-3 max-w-md space-y-2 text-left text-sm text-slate-600">
+          <li>
+            <span className="font-semibold text-slate-900">1.</span> Du teilst den Quiz-Link in deiner
+            Story.
+          </li>
+          <li>
+            <span className="font-semibold text-slate-900">2.</span> Interessenten beantworten 5 Fragen
+            zu ihrer Situation.
+          </li>
+          <li>
+            <span className="font-semibold text-slate-900">3.</span> Automatisch bekommst du
+            vorqualifizierte Anfragen in ManyChat (dem Automatisierungs-Tool für Instagram-/
+            Facebook-Nachrichten) — sortiert danach, wie bereit sie fürs Erstgespräch sind.
+          </li>
+        </ol>
+      </section>
+
       {/* Beispiel-Output */}
       <section className="mx-auto max-w-4xl px-4 pb-16">
         <div className="mb-6 text-center">
