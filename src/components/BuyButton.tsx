@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 
 type BuyButtonProps = {
   className?: string;
@@ -8,6 +8,8 @@ type BuyButtonProps = {
 };
 
 export default function BuyButton({ className, children }: BuyButtonProps) {
+  const checkboxId = useId();
+  const [widerrufBestaetigt, setWiderrufBestaetigt] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +31,26 @@ export default function BuyButton({ className, children }: BuyButtonProps) {
 
   return (
     <div>
-      <button type="button" onClick={handleClick} disabled={isLoading} className={className}>
+      <label htmlFor={checkboxId} className="mb-3 flex items-start justify-center gap-2 text-left">
+        <input
+          id={checkboxId}
+          type="checkbox"
+          required
+          checked={widerrufBestaetigt}
+          onChange={(e) => setWiderrufBestaetigt(e.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+        />
+        <span className="max-w-xs text-sm text-slate-600">
+          Ich verzichte ausdrücklich auf mein 14-tägiges Widerrufsrecht, da ich mit dem Kauf
+          sofortigen Zugriff auf die digitale Leistung erhalte.
+        </span>
+      </label>
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={isLoading || !widerrufBestaetigt}
+        className={className}
+      >
         {isLoading ? "Wird geladen …" : children}
       </button>
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
