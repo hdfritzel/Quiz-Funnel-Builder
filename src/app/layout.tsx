@@ -35,8 +35,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </header>
         {children}
         <footer className="border-t border-slate-200 bg-white py-6">
-          <div className="mx-auto max-w-4xl px-4 text-center text-xs text-slate-400">
-            © {new Date().getFullYear()} Quiz-Funnel-Builder
+          <div className="mx-auto flex max-w-4xl flex-col items-center gap-2 px-4 text-center text-xs text-slate-400">
+            <p>© {new Date().getFullYear()} Quiz-Funnel-Builder</p>
+            <nav className="flex gap-4">
+              <Link href="/impressum" className="hover:text-slate-600 hover:underline">
+                Impressum
+              </Link>
+              <Link href="/datenschutz" className="hover:text-slate-600 hover:underline">
+                Datenschutz
+              </Link>
+            </nav>
           </div>
         </footer>
       </body>
