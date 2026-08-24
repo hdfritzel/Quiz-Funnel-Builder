@@ -68,7 +68,7 @@ FORMAT: Antworte AUSSCHLIESSLICH mit validem JSON in exakt dieser Struktur, ohne
 ## API-Call-Konfiguration (für Claude Code)
 
 - Model: `claude-sonnet-4-6`
-- `temperature`: 0.7 (genug Variation zwischen Generierungen, aber nicht chaotisch)
+- `temperature` wird NICHT gesendet — das aktuelle Modell lehnt den Parameter ab ("temperature is deprecated for this model")
 - User-Message enthält nur die drei eingesetzten Variablen, der Rest steht im System-Prompt
 - Response wird direkt als JSON geparst (`JSON.parse`), vorher Markdown-Codeblock-Reste entfernen (`​```json` / `​```` strippen), falls das Modell trotz Anweisung welche liefert
 - Bei Parse-Fehler: einmaliger automatischer Retry mit demselben Call, danach Fehlermeldung an Nutzer ("Generierung fehlgeschlagen, bitte erneut versuchen" — Zähler wird bei Fehler NICHT reduziert)
