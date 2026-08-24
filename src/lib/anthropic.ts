@@ -16,17 +16,17 @@ function getClient(): Anthropic {
   return client;
 }
 
-// Model + temperature gemäß quiz-generation-prompt.md ("API-Call-Konfiguration").
+// Model gemäß quiz-generation-prompt.md ("API-Call-Konfiguration").
 // Über ANTHROPIC_MODEL überschreibbar, falls sich die Modell-ID ändert.
+// Hinweis: `temperature` wird bewusst NICHT gesendet — das aktuelle Modell
+// lehnt den Parameter mit "temperature is deprecated for this model" ab.
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5";
-const TEMPERATURE = 0.7;
 const MAX_TOKENS = 4096;
 
 async function callClaude(input: QuizFormInput): Promise<QuizResult | null> {
   const message = await getClient().messages.create({
     model: MODEL,
     max_tokens: MAX_TOKENS,
-    temperature: TEMPERATURE,
     system: buildSystemPrompt(input),
     messages: [{ role: "user", content: buildUserMessage(input) }],
   });
