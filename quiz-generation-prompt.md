@@ -67,7 +67,7 @@ FORMAT: Antworte AUSSCHLIESSLICH mit validem JSON in exakt dieser Struktur, ohne
 
 ## API-Call-Konfiguration (für Claude Code)
 
-- Model: `claude-sonnet-4-6`
+- Model: `claude-sonnet-5`
 - `temperature` wird NICHT gesendet — das aktuelle Modell lehnt den Parameter ab ("temperature is deprecated for this model")
 - User-Message enthält nur die drei eingesetzten Variablen, der Rest steht im System-Prompt
 - Response wird direkt als JSON geparst (`JSON.parse`), vorher Markdown-Codeblock-Reste entfernen (`​```json` / `​```` strippen), falls das Modell trotz Anweisung welche liefert
