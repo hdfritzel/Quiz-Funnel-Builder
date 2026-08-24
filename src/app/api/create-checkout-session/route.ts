@@ -32,6 +32,7 @@ export async function POST() {
     const session = await getStripe().checkout.sessions.create({
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
+      allow_promotion_codes: true,
       success_url: `${siteUrl}/generator?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/`,
     });
