@@ -135,6 +135,18 @@ export default function LandingPage() {
             <li>✓ 3 Freebie-Titel-Vorschläge</li>
             <li>✓ Export als Textdatei, kein Login nötig</li>
           </ul>
+
+          <div className="mx-auto mt-6 max-w-sm rounded-xl border border-slate-200 bg-white p-4 text-left shadow-sm">
+            <h3 className="text-sm font-semibold text-slate-900">
+              🎁 Inklusive: Fertiger ManyChat-Flow (Wert: 97&nbsp;€) — kostenlos dabei
+            </h3>
+            <p className="mt-1 text-sm text-slate-600">
+              Für die Auslieferung nutzt du ManyChat — ein kostenloses Tool für automatische
+              Instagram-Antworten. Du musst nichts selbst bauen: Du bekommst eine fertige Vorlage
+              dazu, trägst nur noch deinen generierten Text ein. Keine Vorkenntnisse nötig.
+            </p>
+          </div>
+
           <div className="mt-8">
             <BuyButton className={CTA_CLASSES}>Jetzt kaufen — 47&nbsp;€</BuyButton>
           </div>
