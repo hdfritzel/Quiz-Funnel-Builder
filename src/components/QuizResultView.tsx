@@ -3,6 +3,12 @@
 import type { QuizResult } from "@/types/quiz";
 import CopyButton from "@/components/CopyButton";
 import { buildExportText, downloadTextFile, slugify, type ExportMeta } from "@/lib/export";
+import {
+  MANYCHAT_BONUS_INTRO,
+  MANYCHAT_BONUS_STEPS,
+  MANYCHAT_BONUS_STEPS_INTRO,
+  buildManyChatBonusText,
+} from "@/lib/manychat-bonus";
 
 type QuizResultViewProps = {
   result: QuizResult;
@@ -107,6 +113,23 @@ export default function QuizResultView({ result, meta, onReset }: QuizResultView
             <CopyButton text={result.manychat_routing} />
           </div>
           <p className="whitespace-pre-wrap text-sm text-slate-700">{result.manychat_routing}</p>
+        </div>
+      </section>
+
+      {/* Bonus: ManyChat-Flow — fester Inhalt, siehe lib/manychat-bonus.ts */}
+      <section>
+        <h2 className="mb-3 text-lg font-semibold text-slate-900">🎁 Bonus: Fertiger ManyChat-Flow</h2>
+        <div className="rounded-lg border border-slate-200 bg-white p-4">
+          <div className="mb-2 flex justify-end">
+            <CopyButton text={buildManyChatBonusText()} />
+          </div>
+          <p className="text-sm text-slate-700">{MANYCHAT_BONUS_INTRO}</p>
+          <p className="mt-3 text-sm font-medium text-slate-900">{MANYCHAT_BONUS_STEPS_INTRO}</p>
+          <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-slate-700">
+            {MANYCHAT_BONUS_STEPS.map((step, i) => (
+              <li key={i}>{step}</li>
+            ))}
+          </ol>
         </div>
       </section>
     </div>
