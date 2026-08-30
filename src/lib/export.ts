@@ -50,6 +50,27 @@ export function buildExportText(result: QuizResult, meta: ExportMeta): string {
   lines.push(result.manychat_routing);
   lines.push("");
 
+  // Fester Bonus-Abschnitt — bewusst nicht Teil der KI-Generierung, immer
+  // identischer Inhalt bei jedem Export.
+  lines.push("BONUS: FERTIGER MANYCHAT-FLOW");
+  lines.push("-".repeat(50));
+  lines.push(
+    "Was ist ManyChat? Ein kostenloses Tool für automatische Instagram-Antworten. Kommentiert jemand ein bestimmtes Wort unter deinem Post, schickt ManyChat automatisch eine passende Nachricht zurück."
+  );
+  lines.push("");
+  lines.push("So holst du dir den fertigen Flow:");
+  lines.push("1. Falls noch kein ManyChat-Konto: kostenlos erstellen auf manychat.com");
+  lines.push(
+    "2. Diesen Link öffnen: https://app.manychat.com/flowPlayerPage?share_hash=2306999305977049_24056e30c49bce457c118ffc4122c410db57771d"
+  );
+  lines.push("3. Dein ManyChat-Konto auswählen, Flow installieren");
+  lines.push(
+    "4. Die Platzhalter in eckigen Klammern [FRAGE 1] etc. durch deine obigen generierten Fragen/Ergebnisse ersetzen"
+  );
+  lines.push("5. Eigenes Trigger-Wort und eigenen Link (z.B. Kalender) einsetzen");
+  lines.push("6. Testen, indem du selbst dein Trigger-Wort kommentierst");
+  lines.push("");
+
   return lines.join("\n");
 }
 
