@@ -3,9 +3,40 @@ import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { initOrGetCredits } from "@/lib/kv";
 
+const QUENTN_TRIGGER_URL = "https://pitozm.eu-1.quentn.com/public/api/v1/cb/758";
+
 // POST /api/stripe-webhook — siehe quiz-funnel-builder-spec.md, Abschnitt 6.
 // Absicherung, falls der Client-seitige Verify-Call (/api/verify-session) fehlschlägt:
 // bestätigt checkout.session.completed und initialisiert den Zähler serverseitig.
+
+/**
+ * Meldet einen erfolgreichen Kauf an Quentn (E-Mail-Marketing-Automation).
+ * Läuft bewusst fehlertolerant: Ein Fehlschlag hier darf die Freischaltung
+ * der Generierungen niemals blockieren.
+ */
+async function notifyQuentn(email: string | null): Promise<void> {
+  if (!email) {
+    console.error("[stripe-webhook] Keine E-Mail-Adresse in der Session — Quentn-Trigger übersprungen.");
+    return;
+  }
+  try {
+    // TODO(debug): temporäres Logging zur Fehlersuche — wieder entfernen,
+    // sobald geklärt ist, ob der Quentn-Call durchkommt.
+    console.log(`[stripe-webhook] Quentn-Call gestartet für ${email}`);
+    const res = await fetch(QUENTN_TRIGGER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mail: email }),
+      signal: AbortSignal.timeout(5000),
+    });
+    console.log(`[stripe-webhook] Quentn-Antwort: ${res.status}`);
+    if (!res.ok) {
+      console.error(`[stripe-webhook] Quentn-Trigger fehlgeschlagen: HTTP ${res.status}`);
+    }
+  } catch (error) {
+    console.error("[stripe-webhook] Quentn-Trigger fehlgeschlagen:", error);
+  }
+}
 
 export async function POST(request: Request) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -34,6 +65,7 @@ export async function POST(request: Request) {
     const session = event.data.object as Stripe.Checkout.Session;
     if (session.payment_status === "paid") {
       await initOrGetCredits(session.id);
+      await notifyQuentn(session.customer_details?.email ?? session.customer_email);
     }
   }
 
