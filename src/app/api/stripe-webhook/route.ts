@@ -19,13 +19,22 @@ async function notifyQuentn(email: string | null): Promise<void> {
     console.error("[stripe-webhook] Keine E-Mail-Adresse in der Session — Quentn-Trigger übersprungen.");
     return;
   }
+  const apiKey = process.env.QUENTN_API_KEY;
+  if (!apiKey) {
+    console.error("[stripe-webhook] QUENTN_API_KEY ist nicht gesetzt — Quentn-Trigger übersprungen.");
+    return;
+  }
+
   try {
     // TODO(debug): temporäres Logging zur Fehlersuche — wieder entfernen,
     // sobald geklärt ist, ob der Quentn-Call durchkommt.
     console.log(`[stripe-webhook] Quentn-Call gestartet für ${email}`);
     const res = await fetch(QUENTN_TRIGGER_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
       body: JSON.stringify({ mail: email }),
       signal: AbortSignal.timeout(5000),
     });
