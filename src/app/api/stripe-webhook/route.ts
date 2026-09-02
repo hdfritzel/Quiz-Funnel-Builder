@@ -26,9 +26,6 @@ async function notifyQuentn(email: string | null): Promise<void> {
   }
 
   try {
-    // TODO(debug): temporäres Logging zur Fehlersuche — wieder entfernen,
-    // sobald geklärt ist, ob der Quentn-Call durchkommt.
-    console.log(`[stripe-webhook] Quentn-Call gestartet für ${email}`);
     const res = await fetch(QUENTN_TRIGGER_URL, {
       method: "POST",
       headers: {
@@ -38,7 +35,6 @@ async function notifyQuentn(email: string | null): Promise<void> {
       body: JSON.stringify({ mail: email }),
       signal: AbortSignal.timeout(5000),
     });
-    console.log(`[stripe-webhook] Quentn-Antwort: ${res.status}`);
     if (!res.ok) {
       console.error(`[stripe-webhook] Quentn-Trigger fehlgeschlagen: HTTP ${res.status}`);
     }
